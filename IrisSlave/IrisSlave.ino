@@ -12,6 +12,7 @@
 //        03/20/14 - (PH) Took out MEGA #ifdefs
 //        03/20/14 - (PH) Fixed msg for me logic
 //        03/26/14 - (PH) limited combined pot values from 0-510 (511 values)
+//        04/02/14 - (PH) changed pins for dips switches (from 5, 6, 7 to 11, 14, 15)
 //        
 //   ToDo:
 //        Blink error code on LED if no inbound messages for set time.
