@@ -108,7 +108,7 @@ int readMasterMsg (int *tally, int *potStep)
 #define DIP_ON LOW             // If voltage is LOW (grounded), the dip switch is in the ON position.  
 #define NUM_ADDRESS_BITS 3     // 2**9 gives 0-511
 
-unsigned int address_pins[NUM_ADDRESS_BITS] = {11,14,15};
+unsigned int address_pins[NUM_ADDRESS_BITS] = {15,14,11};
 
 
   // Initialize ...
