@@ -13,9 +13,9 @@
 //        03/26/14 - (PH) Added CAMERA_MIN_POT_STEP and MAX to allow for camera calibration
 //      
 //   ToDO:
-//        Get some cool pots
 //        Add buttons for presets/recall
-//        
+//
+//
 
 
 #define NUM_CAMERAS 4
