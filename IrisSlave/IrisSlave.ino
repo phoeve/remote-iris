@@ -116,13 +116,12 @@ void setup() {
   
   int i;
   unsigned char val;
+  int CameraAddress;
  
   Serial.begin(9600); 
   
   Serial1.begin(9600); 
   while (!Serial1){};    // Wait for Serial1 to connect to XBee
-
-
   
   Wire.begin();
   
@@ -135,8 +134,18 @@ void setup() {
     digitalWrite(address_pins[i], HIGH);       // turn on pullup resistor
     
     val = digitalRead(address_pins[i]);
+    
+    Serial.print("Switch ");
+    Serial.print(i);
     if (val==DIP_ON)
-      bitSet(CameraAddress, NUM_ADDRESS_BITS -i -1);   
+    {
+      Serial.print(" is ON");
+      bitSet(CameraAddress, NUM_ADDRESS_BITS -i -1);
+    }   
+    else
+    {
+      Serial.print(" is OFF");
+    }
   }  
   
 
