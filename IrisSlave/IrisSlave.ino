@@ -108,7 +108,7 @@ int readMasterMsg (int *tally, int *potStep)
 #define DIP_ON LOW             // If voltage is LOW (grounded), the dip switch is in the ON position.  
 #define NUM_ADDRESS_BITS 3     // 2**9 gives 0-511
 
-unsigned int address_pins[NUM_ADDRESS_BITS] = {15,14,11};
+unsigned int address_pins[NUM_ADDRESS_BITS] = {11,17,15};
 
 
   // Initialize ...
@@ -116,13 +116,10 @@ void setup() {
   
   int i;
   unsigned char val;
-  int CameraAddress;
  
   Serial.begin(9600); 
   
-  Serial1.begin(9600); 
-  
-  Wire.begin();
+  delay(5000);   // Give you time to open console and see prints
   
   pinMode (TALLY_PIN, OUTPUT);
  
@@ -134,27 +131,23 @@ void setup() {
     
     val = digitalRead(address_pins[i]);
     
-    Serial.print("Switch ");
-    Serial.print(i);
     if (val==DIP_ON)
     {
-      Serial.print(" is ON");
       bitSet(CameraAddress, NUM_ADDRESS_BITS -i -1);
     }   
-    else
-    {
-      Serial.print(" is OFF");
-    }
+
   }  
   
 
   Serial.print("My Camera Address = ");
   Serial.println(CameraAddress);
   
+  Serial1.begin(9600); 
   
+  Wire.begin();
   while (!Serial1){};    // Wait for Serial1 to connect to XBee
   
-  delay(5000);
+
   
 }
 
