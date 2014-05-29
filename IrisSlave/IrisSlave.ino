@@ -121,7 +121,6 @@ void setup() {
   Serial.begin(9600); 
   
   Serial1.begin(9600); 
-  while (!Serial1){};    // Wait for Serial1 to connect to XBee
   
   Wire.begin();
   
@@ -151,6 +150,11 @@ void setup() {
 
   Serial.print("My Camera Address = ");
   Serial.println(CameraAddress);
+  
+  
+  while (!Serial1){};    // Wait for Serial1 to connect to XBee
+  
+  delay(5000);
   
 }
 
