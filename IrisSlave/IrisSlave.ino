@@ -13,7 +13,7 @@
 //        03/20/14 - (PH) Fixed msg for me logic
 //        03/26/14 - (PH) limited combined pot values from 0-510 (511 values)
 //        04/02/14 - (PH) changed pins for dips switches (from 5, 6, 7 to 11, 14, 15)
-//        
+//        05/29/14 - (PH) changed address pins to {11,17,15}  Fio has strange pin arrangement https://learn.sparkfun.com/tutorials/pro-micro--fio-v3-hookup-guide/hardware-overview-fio-v3
 //   ToDo:
 //        Blink error code on LED if no inbound messages for set time.
 //
