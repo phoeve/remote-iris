@@ -11,17 +11,20 @@
 //        03/06/14 - (CT) Original
 //        03/20/14 - (PH) Working version.
 //        03/26/14 - (PH) Added CAMERA_MIN_POT_STEP and MAX to allow for camera calibration
+//        07/30/14 = (PH) Added supprt for second tally
 //      
 //   ToDO:
 //        Add buttons for presets/recall
 //
 //
 
+#define TALLY1 0
+#define TALLY2 1
 
 #define NUM_CAMERAS 4
 
 int camera_pot_pin[NUM_CAMERAS] = {0,1,2,3};      // Analog Arduino pins (A0, A1 ...)
-int camera_tally_pin[NUM_CAMERAS] = {2,3,4,5};    // Digital Arduino pins
+int camera_tally_pin[NUM_CAMERAS][2] = {{2,29},{3,39},{4,49},{5,59}};    // Digital Arduino pins
 
   // Initialize ...
 void setup() {
@@ -33,8 +36,11 @@ void setup() {
   
   for (int i=0; i< NUM_CAMERAS; i++){
     
-    pinMode (camera_tally_pin[i], INPUT);    // This belongs in the master sketch to read the tally system
-    digitalWrite(camera_tally_pin[i], HIGH); // Set pull-up resistor
+    pinMode (camera_tally_pin[i][TALLY1], INPUT);    // This belongs in the master sketch to read the tally system
+    digitalWrite(camera_tally_pin[i][TALLY1], HIGH); // Set pull-up resistor
+    
+    pinMode (camera_tally_pin[i][TALLY2], INPUT);    // This belongs in the master sketch to read the tally system
+    digitalWrite(camera_tally_pin[i][TALLY2], HIGH); // Set pull-up resistor
   }
   
 }
@@ -45,17 +51,22 @@ void setup() {
 
   // Main processing loop ...
 void loop() {
- char tally; 
+ char tally, tally2; 
  int pot;
  float camera_iris_range;
  
  
- for (int i=0; i< NUM_CAMERAS; i++){
+ for (int i=0; i< NUM_CAMERAS; i++){   // loop across all cameras
    
-   if (digitalRead(camera_tally_pin[i]) == HIGH)    // Port 2 (digital)
+   if (digitalRead(camera_tally_pin[i][TALLY1]) == HIGH)    // First tally
      tally = 'L';
    else
      tally = 'H';
+     
+   if (digitalRead(camera_tally_pin[i][TALLY2]) == HIGH)    // Second tally
+     tally2 = 'L';
+   else
+     tally2 = 'H';
         
    // the slave's digital pot only ranges from 0-511.  master's analog port ranges from 0-1023
    // So let's devide by 2   
@@ -68,6 +79,8 @@ void loop() {
    Serial.print("<");     // Start of new meessage   <0L255>
    Serial.print(i);       // address - 0,1,2,3
    Serial.print(tally);
+   Serial.print(tally2);
+
    
    if (pot < 100)
      Serial.print("0");    // make sure we send 3 digits !

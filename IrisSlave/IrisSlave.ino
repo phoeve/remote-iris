@@ -10,10 +10,11 @@
 //   History:
 //        03/06/14 - (PH) Original
 //        03/20/14 - (PH) Took out MEGA #ifdefs
-//        03/20/14 - (PH) Fixed msg for me logic
+//        03/20/14 - (PH) Fixed msg for "me" logic
 //        03/26/14 - (PH) limited combined pot values from 0-510 (511 values)
 //        04/02/14 - (PH) changed pins for dips switches (from 5, 6, 7 to 11, 14, 15)
 //        05/29/14 - (PH) changed address pins to {11,17,15}  Fio has strange pin arrangement https://learn.sparkfun.com/tutorials/pro-micro--fio-v3-hookup-guide/hardware-overview-fio-v3
+//        07/30/14 - (PH) Added support for second Tally.  Set first tally to D16 and second to D17
 //   ToDo:
 //        Blink error code on LED if no inbound messages for set time.
 //
@@ -56,11 +57,12 @@ void setDigitalPot (int step)
 
 
   // This is just a test mode dummy routine.  It will be replaced by a true read/translate XBee message.
-#define TALLY_PIN 10
+#define TALLY_PIN 16
+#define TALLY_PIN2 17
 
 String MasterMsg = "";    // MasterMsg may be assembled across 2 calls of readMasterMsg
 
-int readMasterMsg (int *tally, int *potStep)
+int readMasterMsg (int *tally, int *tally2, int *potStep)
 {
     char ch;
    
@@ -94,8 +96,13 @@ int readMasterMsg (int *tally, int *potStep)
         *tally = HIGH;
       else
         *tally = LOW;
+        
+      if (MasterMsg[2] == 'H')
+        *tally2 = HIGH;
+      else
+        *tally2 = LOW;
                                       // convert 3 byte ascii decimal address to int :)
-      *potStep = (MasterMsg[2] - '0') *100 + (MasterMsg[3] - '0') *10 + (MasterMsg[4] - '0');
+      *potStep = (MasterMsg[3] - '0') *100 + (MasterMsg[4] - '0') *10 + (MasterMsg[5] - '0');
       
       return 1;   // 1 means YES this message was for me !
       
@@ -155,18 +162,22 @@ void setup() {
   // Main processing loop ...
 void loop() {
   
-  static int tally, potStep;
+  static int tally, tally2, potStep;
   
-  if (readMasterMsg(&tally, &potStep)){   // Read the next wessage that is destined for me (return !=0)
+  if (readMasterMsg(&tally, &tally2, &potStep)){   // Read the next wessage that is destined for me (return !=0)
   
-    Serial.print("tally, potStep = ");
+    Serial.print("tally, tally2, potStep = ");
     Serial.print(tally);
+    Serial.print(", ");
+    Serial.print(tally2);
     Serial.print(", ");
     Serial.println(potStep);
   
     setDigitalPot(potStep);
   
     digitalWrite(TALLY_PIN, tally); 
+    digitalWrite(TALLY_PIN2, tally2); 
+
   }
  
 }
