@@ -58,7 +58,7 @@ void setDigitalPot (int step)
 
   // This is just a test mode dummy routine.  It will be replaced by a true read/translate XBee message.
 #define TALLY_PIN 16
-#define TALLY_PIN2 17
+#define TALLY_PIN2 14
 
 String MasterMsg = "";    // MasterMsg may be assembled across 2 calls of readMasterMsg
 
@@ -129,6 +129,7 @@ void setup() {
   delay(5000);   // Give you time to open console and see prints
   
   pinMode (TALLY_PIN, OUTPUT);
+  pinMode (TALLY_PIN2, OUTPUT);
  
                // On power up or reset read camera address from dip switch 
   for (i=0; i<NUM_ADDRESS_BITS; i++)
