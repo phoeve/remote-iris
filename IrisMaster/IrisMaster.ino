@@ -24,7 +24,7 @@
 #define NUM_CAMERAS 4
 
 int camera_pot_pin[NUM_CAMERAS] = {0,1,2,3};      // Analog Arduino pins (A0, A1 ...)
-int camera_tally_pin[NUM_CAMERAS][2] = {{2,29},{3,39},{4,49},{5,59}};    // Digital Arduino pins
+int camera_tally_pin[NUM_CAMERAS][2] = {{2,6},{3,7},{4,8},{5,9}};    // Digital Arduino pins
 
   // Initialize ...
 void setup() {
